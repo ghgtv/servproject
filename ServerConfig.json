@@ -1,0 +1,8 @@
+{
+  "DB_path": "DB/project_DB.db",
+  "user_tablet": "users",
+  "files_version": "0.0.1",
+  "project_files": "projectfiles/",
+  "exe_file": "none",
+  "files_table": "fileslist"
+}

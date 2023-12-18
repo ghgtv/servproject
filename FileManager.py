@@ -12,7 +12,6 @@ def send_version():
 
 
 def send_files(files_time):
-    tempdict = dict()
     update = []
     delete = []
 
@@ -24,7 +23,7 @@ def send_files(files_time):
             f.close()
         if files[file] == "DELETE":
             delete.append(file)
-    result = {"UPDATE": update, "DELETE": delete}
+    result = {"UPDATE": update, "DELETE": delete, "EXE": f'{config["project_files"]}{config["exe_file"]}'}
     return result
 
 

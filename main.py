@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import request
 from markupsafe import escape
-
+from flask import abort
 import DBManager
 import UserValidator
 import FileManager
@@ -22,7 +22,7 @@ def get_version_request():
             return FileManager.send_version()
 
         else:
-            error = "username/password don`t match, please check sending data fields"
+            error = abort(403, "username/password don`t match, please check sending data fields")
     return error
 
 
@@ -33,7 +33,7 @@ def get_files_request():
         if UserValidator.check_valid_login(escape(request.form.get("username")), escape(request.form.get("password"))):
             return FileManager.send_files(request.form.get("files_time"))
         else:
-            error = "username/password don`t match, please check sending data fields"
+            error = abort(403, "username/password don`t match, please check sending data fields")
     return error
 
 
@@ -43,7 +43,7 @@ def update_DB():
     if request.method == "POST":
         if UserValidator.check_valid_login(escape(request.form.get("username")),
                                            escape(request.form.get("password"))) and UserValidator.check_admin_login(
-                escape(request.form.get("username")), escape(request.form.get("password"))):
+            escape(request.form.get("username")), escape(request.form.get("password"))):
             DBManager.DB_sync_files()
             return "Request approved"
         else:

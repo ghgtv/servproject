@@ -1,5 +1,5 @@
 import sqlite3
-
+from datetime import datetime
 import FileManager
 import ServerConfigurator
 
@@ -35,20 +35,21 @@ def return_update_statement(files: dict):
     cursor = connect_DB()
     result = dict()
     redact_time = dict()
-    for line in list(cursor.execute(f"""SELECT filename, time FROM  {config['files_table']}""").fetchall()):
-        redact_time[line[0]] = line[1]
+    for line in list(cursor.execute(f"""SELECT filename, time, status FROM  {config['files_table']}""").fetchall()):
+        redact_time[line[0]] = (line[1], line[2])
 
     for file in redact_time.keys():
-        if not files:
+        if not files and redact_time[file][1] == "UPDATED":
             result[file] = "UPDATE"
         elif file in files.keys():
-            if str(redact_time[file]) != str(files[file]):
+            if redact_time[file][1] == "UPDATED" and datetime.strptime(redact_time[file][0],
+                                                                       "%y-%m-%d") >= datetime.strptime(files[file],
+                                                                                                        "%y-%m-%d"):
                 result[file] = "UPDATE"
-            files.pop(file)
-        elif file not in files.keys():
+
+        elif redact_time[file][1] == "UPDATED" and file not in files.keys():
             result[file] = "UPDATE"
-    if files:
-        for file in files:
+        elif redact_time[file][1] == "DELETED":
             result[file] = "DELETE"
     print(files)
     cursor.close()

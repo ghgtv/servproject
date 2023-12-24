@@ -51,7 +51,6 @@ def return_update_statement(files: dict):
             result[file] = "UPDATE"
         elif redact_time[file][1] == "DELETED":
             result[file] = "DELETE"
-    print(files)
     cursor.close()
     return result
 

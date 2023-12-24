@@ -1,8 +1,9 @@
 {
   "DB_path": "DB/project_DB.db",
-  "user_tablet": "users",
+  "user_table": "users",
   "files_version": "0.0.2",
   "project_files": "projectfiles/",
   "exe_file": "executable file.bat",
-  "files_table": "fileslist"
+  "files_table": "fileslist",
+  "server_port": 4567
 }

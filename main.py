@@ -5,9 +5,9 @@ from flask import abort
 import DBManager
 import UserValidator
 import FileManager
-
+import ServerConfigurator
 app = Flask(__name__)
-
+config = ServerConfigurator.get_configure()
 
 @app.route("/")
 def index():
@@ -51,4 +51,4 @@ def update_DB():
     return error
 
 
-app.run(port=4567)
+app.run(port=config["server_port"])
